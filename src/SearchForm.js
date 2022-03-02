@@ -1,17 +1,23 @@
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SearchForm = (props) => {
 
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState('');
+  let history = useNavigate();
 
   const handleOnChange = (e) => {
-    setInput(e.target.value)
+   
+    setInput(e.target.value);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.setQuery(input);
+    
+    history(input);
+    
+    e.currentTarget.reset();
     
   }
   

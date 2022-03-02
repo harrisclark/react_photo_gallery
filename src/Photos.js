@@ -1,25 +1,33 @@
-import React from "react";
-import Photo from "./Photo";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import PhotoList from "./PhotoList";
+import apiKey from "./config";
 
-const Photos = (props) => {
-  const imgs = props.photos.map( (photo) => {
-    // conditional to prevent inaccessible photos (farm: 0) from being returned
-    if (photo.farm) {
-      return <Photo 
-      url={`http://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`} 
-      key={photo.id} />
-    } else { return null }
-  });
+const Photos = () => {
+  const [photoList, setPhotoList] = useState([]);
+  
 
+  const { query } = useParams();
+  console.log(query)
+  useEffect(() => {
+    requestPhotoList(query);
+    
+  }, [query])
+
+  async function requestPhotoList(query) {
+
+    const res = await fetch(
+      `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&tag_mode=all&per_page=24&format=json&nojsoncallback=1`
+    );
+    const json = await res.json();
+    console.log('log');
+    setPhotoList(json.photos.photo);
+  };
 
   return(
-    <div className="photo-container">
-      <h2>{props.query}</h2>
-      <ul>
-        {imgs}
-      </ul>
-    </div>
+    <>
+      <PhotoList photos={photoList} query={query} />
+    </>
   )
 }
-
 export default Photos;
