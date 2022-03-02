@@ -17,9 +17,8 @@ const PhotoList = (props) => {
 
   return(
     <div className="photo-container">
-      <h2>{props.query}</h2>
       <ul>
-        {imgs}
+        {!props.isLoading ? imgs : null}
       </ul>
     </div>
   )

@@ -7,6 +7,7 @@ import './index.css';
 import Nav from './Nav';
 import SearchForm from './SearchForm';
 import Photos from './Photos';
+import RouteNotFound from './RouteNotFound';
 
 const App = () => {
 
@@ -26,7 +27,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/cats" />} />
           <Route path="/:query" element={<Photos />} />
-          
+          <Route path="*" element={<RouteNotFound />} />
         </Routes>
       </div>
     
